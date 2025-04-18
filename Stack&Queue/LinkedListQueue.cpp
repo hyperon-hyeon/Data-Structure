@@ -24,6 +24,10 @@ int queueEmpty(){
 void enQueue(int num){
     if (!queueFull()) {
         Node* temp = (Node*)malloc(sizeof(Node));
+        if (temp == NULL) {
+            printf("[Error] Memory allocation failed!\n");
+            return;
+        }
 
         temp->data = num;
         temp->next = NULL;
