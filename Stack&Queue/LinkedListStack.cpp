@@ -23,7 +23,10 @@ int stackEmpty(){
 void enStack(int num){
     if (!stackFull()) {
         Node* temp = (Node*)malloc(sizeof(Node));
-
+				if (temp == NULL) {
+					printf("[Error] Memory allocation failed!\n");
+					return;
+			}
         temp->data = num;
         temp->next = top;
         top = temp;
