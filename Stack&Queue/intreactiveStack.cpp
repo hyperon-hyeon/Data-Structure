@@ -11,7 +11,7 @@ int stackEmpty() {
 }
 
 int stackFull() {
-    if (top >= MAX_SIZE - 1) return -1;
+    if (top >= MAX_SIZE - 1) return 1;
     else return 0;
 }
 
