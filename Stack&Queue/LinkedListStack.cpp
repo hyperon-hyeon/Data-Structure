@@ -1,109 +1,85 @@
 #include <stdio.h>
-#include<stdlib.h>
+#include <stdlib.h>
 #define MAX_SIZE 10
 
-struct Node {
+typedef struct Node {
 	int data;
-	struct Node* next;
+	Node* next;
 };
 
-struct Node* top = NULL;
+Node* top=NULL;
 int count = 0;
 
-int stackEmpty() {
-	if (count <= 0) { return 1; }
-	else { return 0; }
+int stackFull(){
+    if (count >= MAX_SIZE) return 1;
+    else return 0;
 }
 
-int stackFull() {
-	if (count >= MAX_SIZE) { return 1; }
-	else { return 0; }
+int stackEmpty(){
+    if (count <= 0) return 1;
+    else return 0;
 }
 
-void enStack(int num) {
-	if (!stackFull()) {
-		struct Node* temp = (struct Node*)malloc(sizeof(struct Node));
-		if (temp == NULL) {
-			printf("Memory allocation is failed\n");
-			exit(1);
-		}
-	
-		temp->data = num;
-		temp->next = top;
-		count++;
-		
-		top = temp;
-	}
-	else { printf("[Error] Stack is full \n"); }
+void enStack(int num){
+    if (!stackFull()) {
+        Node* temp = (Node*)malloc(sizeof(Node));
+
+        temp->data = num;
+        temp->next = top;
+        top = temp;
+        count++;
+    }
+    else printf("[Error] Stack is full!\n");
 }
 
-void deStack() {
-	if (!stackEmpty()) {
-		struct Node* temp = top;
-		int value = -1;
-
-		if (count == 1) { 
-			value = top->data;
-			top = NULL;
-		}
-		else {
-			value = top->data;
-			top = top->next;
-		}
-
-		free(temp);
-		count--;
-		printf("%d Stack is deleted\n", value);
-	}
-	else { printf("[Error] Stack is empty\n"); }
+void deStack(){
+    if (!stackEmpty()) {
+        Node* temp = top;
+        top = top->next;
+        count--;
+        free(temp);
+    }
+    else printf("[Error] Stack is empty!\n");
 }
 
 void printStack() {
-	printf("Current stack(top to bottom): ");
-	if (top == NULL) { printf("None\n"); }
-	else {
-		struct Node* n = top;
-		if (count == 1) {
-			printf(" %d -> ", top->data);}
-		else {
-			while (n != NULL) {
-				printf("%d -> ", n->data);
-				n = n->next;
-			}
-		}
-		printf("NULL\n");
-	}
+    printf("Stack ->  ");
+
+    if (!stackEmpty()) {
+        Node* n = top;
+        for (int i = 0; i < count; i++) {
+            printf(" %d -", n->data);
+            n = n->next;
+        }
+    }
+    printf(" None\n");
 }
 
 int main() {
-	
-	int menuNum = -1;
-	int inputNum = -1;
 
-	printf("[Menu] Quit - 0 / Insert - 1 / Delete - 2 / Print - 3\n");
-	printf("Your choice: ");
-	scanf_s("%d", &menuNum);
+    int menu = -1, inputNum = 0;
+    printf("[Menu] Exit - 0 / Print - 1 / Add - 2 / Delete - 3\n");
+    scanf_s("%d", &menu);
 
-	while (menuNum != 0) {
-		if (menuNum == 1) {
-			printf("Press number to insert: ");
-			scanf_s("%d", &inputNum);
-			enStack(inputNum);
-			printf("[Result] ");
-			printStack();
-		}
-		else if (menuNum == 2) {
-			deStack();
-			printf("[Result] ");
-			printStack();
-		}
-		else if (menuNum == 3) { printStack(); }
-		else { printf("%d cannot work. Press another number\n", menuNum); }
+    while (menu != 0) {
+        if (menu == 1) { printStack(); }
+        else if (menu == 2) {
+            printf("Insert number: ");
+            scanf_s("%d", &inputNum);
+            enStack(inputNum);
+            printf("[Result] ");
+            printStack();
+        }
+        else if (menu == 3) {
+            deStack();
+            printf("[Result] ");
+            printStack();
+        }
+        else { printf("[Error] %d is not available\n", menu); }
 
-		printf("\n[Menu] Quit - 0 / Insert - 1 / Delete - 2 / Print - 3\n");
-		printf("Your choice: ");
-		scanf_s("%d", &menuNum);
-	}
-	free(top);
-	return 0;
+        printf("\n[Menu] Exit - 0 / Print - 1 / Add - 2 / Delete - 3\n");
+        scanf_s("%d", &menu);
+    }
+    free(top);
+    return 0;
 }
