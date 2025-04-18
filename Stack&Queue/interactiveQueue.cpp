@@ -41,7 +41,7 @@ void deQueue(){
 }
 
 void printQueue(){
-    printf("Queue ->  ");
+    printf("Queue (front-rear) ->  ");
     if (queueEmpty()) { printf("None"); }
     else {
         for (int i = front; i <= rear; i++) {
